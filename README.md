@@ -292,9 +292,11 @@ While both hypervisors and Docker provide virtualization and isolation, they ope
     ADD https://example.com/my-app.tar.gz /app/
     ```
     
-    n this example, the **`my-app.tar.gz`** archive is downloaded from a URL and extracted into the **`/app/`** directory within the image.
+    in this example, the **`my-app.tar.gz`** archive is downloaded from a URL and extracted into the **`/app/`** directory within the image.
     
     **Best Practice:**
     
     - It's recommended to use **`COPY`** for most cases where you want to copy local files into the image.
     - Use **`ADD`** when you specifically need its additional features like URL downloading or automatic extraction.
+   ## 16. Write a docker compose yaml file used to run a 2 tier application containing a python backend server, and a mysql database, use networks, and a environment variables file to establish connection between the containers?
+   Refer this [file](docker-compose.yaml)
