@@ -1,5 +1,10 @@
 # docker-interview-questions
 
+# Docker Resources
+- [Docker Containers and Kubernetes Fundamentals – Full Hands-On Course](https://youtu.be/kTp5xUtcalw?si=jzeaCfYYrhyVZNw9)
+- [Docker networking](https://youtu.be/bKFMS5C4CG0?si=vQgD5LL-tt69ASj8)
+- [Docker Cheat Sheet](https://kunalgohrani.hashnode.dev/your-ultimate-docker-cheatsheet-for-learning-and-interview-success)
+
 # Docker Interview Questions
 
 ## 1. What is the difference between an Image, Container and Engine?
@@ -195,140 +200,137 @@ While both hypervisors and Docker provide virtualization and isolation, they ope
     - **Hypervisor:** Hypervisors are ideal for scenarios where strong isolation between multiple OS instances is required, such as running different operating systems on the same physical hardware.
     - **Docker:** Docker is suited for deploying and managing applications in a consistent and reproducible manner. It's commonly used in DevOps, microservices architecture, and application deployment.
     
-    ## 10. What is the difference between CMD & ENTRYPOINT?
-    
-    **CMD**: **Sets default parameters that can be overridden from the Docker command line interface (CLI) while running a docker container.** The **`CMD`** instruction in a Dockerfile specifies the default command to run when a container starts based on the image. If a command is provided to the **`docker run`** command, it overrides the **`CMD`**. For example:
-    
-    ```docker
-    CMD ["python", "app.py"]
-    ```
-    
-    If you run the container without specifying a command, it will run **`python app.py`** by default.
-    
-    **ENTRYPOINT**: **Sets default parameters that cannot be overridden while executing Docker containers with CLI parameters.** The **`ENTRYPOINT`** instruction is similar to **`CMD`**, but it defines the main command that is always executed when the container starts. If a command is provided to the **`docker run`** command, it becomes additional arguments to the **`ENTRYPOINT`**. For example:
-    
-    ```docker
-    ENTRYPOINT ["python", "app.py"]
-    ```
-    
-    Running the container with **`docker run myimage arg1 arg2`** would execute **`python app.py arg1 arg2`**.
-    
-    In summary, both **`CMD`** and **`ENTRYPOINT`** specify the command to run when the container starts, but the key difference is that with **`ENTRYPOINT`**, the specified command is not easily overridden by command-line arguments.
-    
-    ## 11. Explain docker stop, docker restart, docker kill commands and what happens to the data in the container in each case?
-    
-    **Container Stopped:**
-    When a container is gracefully stopped using the **`docker stop`** command, the following happens:
-    
-    - The main process inside the container receives a termination signal (SIGTERM).
-    - The process is given a chance to perform cleanup tasks or save any necessary data.
-    - After a grace period (by default, 10 seconds), if the process hasn't exited, Docker will forcefully stop the container.
-    
-    Data in the container filesystem is retained unless you remove the container explicitly. If you've used volumes, the data in the volume persists beyond the container's lifecycle.
-    
-    **Container Killed:**
-    When a container is forcefully killed using the **`docker kill`** command, the following happens:
-    
-    - The main process inside the container receives a termination signal (SIGKILL) immediately, without any chance to perform cleanup.
-    - The container stops abruptly, and any data changes that weren't written to a volume or bind mount might be lost.
-    
-    **Container Restarted:**
-    When a container is restarted using the **`docker restart`** command or by stopping and starting it again:
-    
-    - The container is first stopped (a grace period is given for cleanup if using **`docker restart`**).
-    - The container is then started again, typically with the same configuration as before.
-    
-    Data in the container filesystem is retained unless you remove the container explicitly. If you've used volumes, the data in the volume persists beyond the container's restart.
-    
-    In summary:
-    
-    - Containers that are gracefully stopped or restarted generally retain their filesystem data unless removed explicitly.
-    - Containers that are forcefully killed may lose any data changes that weren't saved to volumes.
-    - Data in volumes persists beyond the container lifecycle and can be accessed by other containers even after the original container is removed.
-    
-    ## 12. List down different network drivers available in docker.
-    
-    1. Bridge Driver
-    2. Host Driver
-    3. Overaly Driver
-    4. MACVLAN Driver
-    5. None
-    
-    Learn more about docker network drivers in this great tutorial: [https://youtu.be/bKFMS5C4CG0?si=LkcK_oxnVRSkqZBI](https://youtu.be/bKFMS5C4CG0?si=LkcK_oxnVRSkqZBI)
-    
-    ## 13. If Docker requires a linux kernel to function, If so, how does it work in Windows & MacOS?
-    
-    Yes, Docker requires a Linux kernel to function. Docker relies on several Linux kernel features to provide its containerization and isolation capabilities. These features are fundamental to how Docker containers work.
-    
-    Here are some key Linux kernel features that Docker utilizes:
-    
-    1. **Namespaces:** Docker uses namespaces to create isolated environments for processes, networking, filesystems, and other resources. Namespaces ensure that containers can run independently of each other and do not interfere with each other's operations.
-    2. **Control Groups (cgroups):** Docker uses cgroups to manage and limit resource usage for containers. Cgroups allow you to allocate CPU, memory, disk I/O, and other resources to containers, preventing one container from monopolizing resources.
-    3. **Union Filesystems (UnionFS):** Docker employs UnionFS or other similar filesystem technologies (like OverlayFS) to layer filesystems and provide efficient image layering, which helps in creating lightweight and shareable container images.
-    
-    These Linux kernel features are essential for the core functionality of Docker, providing the isolation and resource management that make containers possible. As a result, Docker is primarily compatible with Linux-based systems. However, Docker also provides solutions like Docker Desktop for Mac and Windows that run a lightweight Linux VM to enable Docker usage on non-Linux platforms, effectively providing a Linux environment for Docker to operate within.
+## 10. What is the difference between CMD & ENTRYPOINT?
 
-   ## 14. What’s the difference between COPY & ADD command? Explain it’s importance
-    
-    Both the **`COPY`** and **`ADD`** commands in Docker are used to copy files and directories from the host into the image's filesystem. However, there are some differences between them. Let's explore these differences using code snippets:
-    
-    **COPY Command:**
-    
-    The **`COPY`** command is used to copy files or directories from the host into the image's filesystem. It is a straightforward way to include local files in the image.
-    
-    ```docker
-    # Dockerfile
-    FROM ubuntu:latest
-    COPY app.py /app/
-    ```
-    
-    **ADD Command:**
-    
-    The **`ADD`** command also copies files and directories from the host into the image's filesystem, but it has some additional capabilities. It can handle URLs and automatically extract compressed files.
-    
-    ```docker
-    # Dockerfile
-    FROM ubuntu:latest
-    ADD https://example.com/my-app.tar.gz /app/
-    ```
-    
-    in this example, the **`my-app.tar.gz`** archive is downloaded from a URL and extracted into the **`/app/`** directory within the image.
-    
-    **Best Practice:**
-    
-    - It's recommended to use **`COPY`** for most cases where you want to copy local files into the image.
-    - Use **`ADD`** when you specifically need its additional features like URL downloading or automatic extraction.
+**CMD**: **Sets default parameters that can be overridden from the Docker command line interface (CLI) while running a docker container.** The **`CMD`** instruction in a Dockerfile specifies the default command to run when a container starts based on the image. If a command is provided to the **`docker run`** command, it overrides the **`CMD`**. For example:
 
-    ## 15. What is docker compose? When should we use it?
-    
-    Docker Compose is a tool for defining and running multi-container Docker applications. It allows you to describe your application's     services, networks, and volumes in a single **`docker-compose.yml`** file, and then use a single command to create and manage all the containers required to run your application.
-    
-    **Key Features of Docker Compose:**
-    
-    1. **Service Definitions:** You define your application's services, their configurations, and relationships in a YAML file. Each service can consist of one or more containers.
-    2. **Networks and Volumes:** Docker Compose allows you to create custom networks and volumes for your application, making it easy to manage communication between containers and persist data.
-    3. **Single Command:** With a single command (**`docker-compose up`**), you can start all the containers defined in your **`docker-compose.yml`** file.
-    4. **Environment Variables:** You can use environment variables in your Compose file to provide dynamic configuration to your containers.
-    5. **Scalability:** Docker Compose also supports scaling services, allowing you to run multiple instances of a service easily.
-    6. **Easy Cleanup:** When you're done, you can use **`docker-compose down`** to stop and remove all the containers, networks, and volumes defined in the Compose file.
-    
-    **When to Use Docker Compose:**
-    
-    Docker Compose is particularly useful in the following scenarios:
-    
-    1. **Development Environments:** Docker Compose is great for setting up development environments with multiple interconnected containers. It allows developers to define complex stacks with ease.
-    2. **Microservices:** If you're working with a microservices architecture, Docker Compose helps you define, deploy, and manage the different services that make up your application.
-    3. **Testing:** Compose makes it easier to run integration tests, as you can define the test environment and dependencies in a single file.
-    4. **Local Deployment:** Compose is an excellent choice for quickly deploying your application locally for testing and experimentation.
-    5. **Demonstrations and Training:** When you need to showcase or teach the setup and interactions of multiple containers, Docker Compose simplifies the process.
-    6. **CI/CD Pipelines:** You can use Docker Compose to define your application's services for testing within continuous integration and continuous deployment pipelines.
-    
-    ## 16. Write a docker compose yaml file used to run a 2 tier application containing a python backend server, and a mysql database, use networks, and a environment variables file to establish connection between the containers?
-    
-    Refer to this [file](https://github.com/kunal-gohrani/docker-interview-questions/blob/main/docker-compose.yaml)
+```docker
+CMD ["python", "app.py"]
+```
 
-   # Resources
-   - [Docker Containers and Kubernetes Fundamentals – Full Hands-On Course](https://youtu.be/kTp5xUtcalw?si=jzeaCfYYrhyVZNw9)
-   - [Docker networking](https://youtu.be/bKFMS5C4CG0?si=vQgD5LL-tt69ASj8)
-   - [Docker Cheat Sheet](https://kunalgohrani.hashnode.dev/your-ultimate-docker-cheatsheet-for-learning-and-interview-success)
+If you run the container without specifying a command, it will run **`python app.py`** by default.
+
+**ENTRYPOINT**: **Sets default parameters that cannot be overridden while executing Docker containers with CLI parameters.** The **`ENTRYPOINT`** instruction is similar to **`CMD`**, but it defines the main command that is always executed when the container starts. If a command is provided to the **`docker run`** command, it becomes additional arguments to the **`ENTRYPOINT`**. For example:
+
+```docker
+ENTRYPOINT ["python", "app.py"]
+```
+
+Running the container with **`docker run myimage arg1 arg2`** would execute **`python app.py arg1 arg2`**.
+
+In summary, both **`CMD`** and **`ENTRYPOINT`** specify the command to run when the container starts, but the key difference is that with **`ENTRYPOINT`**, the specified command is not easily overridden by command-line arguments.
+
+## 11. Explain docker stop, docker restart, docker kill commands and what happens to the data in the container in each case?
+
+**Container Stopped:**
+When a container is gracefully stopped using the **`docker stop`** command, the following happens:
+
+- The main process inside the container receives a termination signal (SIGTERM).
+- The process is given a chance to perform cleanup tasks or save any necessary data.
+- After a grace period (by default, 10 seconds), if the process hasn't exited, Docker will forcefully stop the container.
+
+Data in the container filesystem is retained unless you remove the container explicitly. If you've used volumes, the data in the volume persists beyond the container's lifecycle.
+
+**Container Killed:**
+When a container is forcefully killed using the **`docker kill`** command, the following happens:
+
+- The main process inside the container receives a termination signal (SIGKILL) immediately, without any chance to perform cleanup.
+- The container stops abruptly, and any data changes that weren't written to a volume or bind mount might be lost.
+
+**Container Restarted:**
+When a container is restarted using the **`docker restart`** command or by stopping and starting it again:
+
+- The container is first stopped (a grace period is given for cleanup if using **`docker restart`**).
+- The container is then started again, typically with the same configuration as before.
+
+Data in the container filesystem is retained unless you remove the container explicitly. If you've used volumes, the data in the volume persists beyond the container's restart.
+
+In summary:
+
+- Containers that are gracefully stopped or restarted generally retain their filesystem data unless removed explicitly.
+- Containers that are forcefully killed may lose any data changes that weren't saved to volumes.
+- Data in volumes persists beyond the container lifecycle and can be accessed by other containers even after the original container is removed.
+
+## 12. List down different network drivers available in docker.
+
+1. Bridge Driver
+2. Host Driver
+3. Overaly Driver
+4. MACVLAN Driver
+5. None
+
+Learn more about docker network drivers in this great tutorial: [https://youtu.be/bKFMS5C4CG0?si=LkcK_oxnVRSkqZBI](https://youtu.be/bKFMS5C4CG0?si=LkcK_oxnVRSkqZBI)
+
+## 13. If Docker requires a linux kernel to function, If so, how does it work in Windows & MacOS?
+
+Yes, Docker requires a Linux kernel to function. Docker relies on several Linux kernel features to provide its containerization and isolation capabilities. These features are fundamental to how Docker containers work.
+
+Here are some key Linux kernel features that Docker utilizes:
+
+1. **Namespaces:** Docker uses namespaces to create isolated environments for processes, networking, filesystems, and other resources. Namespaces ensure that containers can run independently of each other and do not interfere with each other's operations.
+2. **Control Groups (cgroups):** Docker uses cgroups to manage and limit resource usage for containers. Cgroups allow you to allocate CPU, memory, disk I/O, and other resources to containers, preventing one container from monopolizing resources.
+3. **Union Filesystems (UnionFS):** Docker employs UnionFS or other similar filesystem technologies (like OverlayFS) to layer filesystems and provide efficient image layering, which helps in creating lightweight and shareable container images.
+
+These Linux kernel features are essential for the core functionality of Docker, providing the isolation and resource management that make containers possible. As a result, Docker is primarily compatible with Linux-based systems. However, Docker also provides solutions like Docker Desktop for Mac and Windows that run a lightweight Linux VM to enable Docker usage on non-Linux platforms, effectively providing a Linux environment for Docker to operate within.
+
+## 14. What’s the difference between COPY & ADD command? Explain it’s importance
+
+Both the **`COPY`** and **`ADD`** commands in Docker are used to copy files and directories from the host into the image's filesystem. However, there are some differences between them. Let's explore these differences using code snippets:
+
+**COPY Command:**
+
+The **`COPY`** command is used to copy files or directories from the host into the image's filesystem. It is a straightforward way to include local files in the image.
+
+```docker
+# Dockerfile
+FROM ubuntu:latest
+COPY app.py /app/
+```
+
+**ADD Command:**
+
+The **`ADD`** command also copies files and directories from the host into the image's filesystem, but it has some additional capabilities. It can handle URLs and automatically extract compressed files.
+
+```docker
+# Dockerfile
+FROM ubuntu:latest
+ADD https://example.com/my-app.tar.gz /app/
+```
+
+in this example, the **`my-app.tar.gz`** archive is downloaded from a URL and extracted into the **`/app/`** directory within the image.
+
+**Best Practice:**
+
+- It's recommended to use **`COPY`** for most cases where you want to copy local files into the image.
+- Use **`ADD`** when you specifically need its additional features like URL downloading or automatic extraction.
+
+## 15. What is docker compose? When should we use it?
+
+Docker Compose is a tool for defining and running multi-container Docker applications. It allows you to describe your application's     services, networks, and volumes in a single **`docker-compose.yml`** file, and then use a single command to create and manage all the containers required to run your application.
+
+**Key Features of Docker Compose:**
+
+1. **Service Definitions:** You define your application's services, their configurations, and relationships in a YAML file. Each service can consist of one or more containers.
+2. **Networks and Volumes:** Docker Compose allows you to create custom networks and volumes for your application, making it easy to manage communication between containers and persist data.
+3. **Single Command:** With a single command (**`docker-compose up`**), you can start all the containers defined in your **`docker-compose.yml`** file.
+4. **Environment Variables:** You can use environment variables in your Compose file to provide dynamic configuration to your containers.
+5. **Scalability:** Docker Compose also supports scaling services, allowing you to run multiple instances of a service easily.
+6. **Easy Cleanup:** When you're done, you can use **`docker-compose down`** to stop and remove all the containers, networks, and volumes defined in the Compose file.
+
+**When to Use Docker Compose:**
+
+Docker Compose is particularly useful in the following scenarios:
+
+1. **Development Environments:** Docker Compose is great for setting up development environments with multiple interconnected containers. It allows developers to define complex stacks with ease.
+2. **Microservices:** If you're working with a microservices architecture, Docker Compose helps you define, deploy, and manage the different services that make up your application.
+3. **Testing:** Compose makes it easier to run integration tests, as you can define the test environment and dependencies in a single file.
+4. **Local Deployment:** Compose is an excellent choice for quickly deploying your application locally for testing and experimentation.
+5. **Demonstrations and Training:** When you need to showcase or teach the setup and interactions of multiple containers, Docker Compose simplifies the process.
+6. **CI/CD Pipelines:** You can use Docker Compose to define your application's services for testing within continuous integration and continuous deployment pipelines.
+
+## 16. Write a docker compose yaml file used to run a 2 tier application containing a python backend server, and a mysql database, use networks, and a environment variables file to establish connection between the containers?
+
+Refer to this [file](https://github.com/kunal-gohrani/docker-interview-questions/blob/main/docker-compose.yaml)
+
+   
    
