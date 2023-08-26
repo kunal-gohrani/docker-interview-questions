@@ -1,0 +1,34 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+    env_file:
+      - api.env
+    networks:
+      - public
+      - private
+    restart: on-failure
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:latest
+    env_file:
+      - mysql.env
+    networks:
+      - private
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+networks:
+  public:
+    driver: bridge
+  private:
+volumes:
+  mysql_data:
+# dummy
+
+      
