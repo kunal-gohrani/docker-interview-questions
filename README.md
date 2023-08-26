@@ -298,5 +298,31 @@ While both hypervisors and Docker provide virtualization and isolation, they ope
     
     - It's recommended to use **`COPY`** for most cases where you want to copy local files into the image.
     - Use **`ADD`** when you specifically need its additional features like URL downloading or automatic extraction.
-   ## 16. Write a docker compose yaml file used to run a 2 tier application containing a python backend server, and a mysql database, use networks, and a environment variables file to establish connection between the containers?
-   Refer this [file](docker-compose.yaml)
+
+    ## 15. What is docker compose? When should we use it?
+    
+    Docker Compose is a tool for defining and running multi-container Docker applications. It allows you to describe your application's     services, networks, and volumes in a single **`docker-compose.yml`** file, and then use a single command to create and manage all the containers required to run your application.
+    
+    **Key Features of Docker Compose:**
+    
+    1. **Service Definitions:** You define your application's services, their configurations, and relationships in a YAML file. Each service can consist of one or more containers.
+    2. **Networks and Volumes:** Docker Compose allows you to create custom networks and volumes for your application, making it easy to manage communication between containers and persist data.
+    3. **Single Command:** With a single command (**`docker-compose up`**), you can start all the containers defined in your **`docker-compose.yml`** file.
+    4. **Environment Variables:** You can use environment variables in your Compose file to provide dynamic configuration to your containers.
+    5. **Scalability:** Docker Compose also supports scaling services, allowing you to run multiple instances of a service easily.
+    6. **Easy Cleanup:** When you're done, you can use **`docker-compose down`** to stop and remove all the containers, networks, and volumes defined in the Compose file.
+    
+    **When to Use Docker Compose:**
+    
+    Docker Compose is particularly useful in the following scenarios:
+    
+    1. **Development Environments:** Docker Compose is great for setting up development environments with multiple interconnected containers. It allows developers to define complex stacks with ease.
+    2. **Microservices:** If you're working with a microservices architecture, Docker Compose helps you define, deploy, and manage the different services that make up your application.
+    3. **Testing:** Compose makes it easier to run integration tests, as you can define the test environment and dependencies in a single file.
+    4. **Local Deployment:** Compose is an excellent choice for quickly deploying your application locally for testing and experimentation.
+    5. **Demonstrations and Training:** When you need to showcase or teach the setup and interactions of multiple containers, Docker Compose simplifies the process.
+    6. **CI/CD Pipelines:** You can use Docker Compose to define your application's services for testing within continuous integration and continuous deployment pipelines.
+    
+    ## 16. Write a docker compose yaml file used to run a 2 tier application containing a python backend server, and a mysql database, use networks, and a environment variables file to establish connection between the containers?
+    
+    Refer to this [file](https://github.com/kunal-gohrani/docker-interview-questions/blob/main/docker-compose.yaml)
