@@ -326,3 +326,9 @@ While both hypervisors and Docker provide virtualization and isolation, they ope
     ## 16. Write a docker compose yaml file used to run a 2 tier application containing a python backend server, and a mysql database, use networks, and a environment variables file to establish connection between the containers?
     
     Refer to this [file](https://github.com/kunal-gohrani/docker-interview-questions/blob/main/docker-compose.yaml)
+
+   # Resources
+   - [Docker Containers and Kubernetes Fundamentals – Full Hands-On Course](https://youtu.be/kTp5xUtcalw?si=jzeaCfYYrhyVZNw9)
+   - [Docker networking](https://youtu.be/bKFMS5C4CG0?si=vQgD5LL-tt69ASj8)
+   - [Docker Cheat Sheet](https://kunalgohrani.hashnode.dev/your-ultimate-docker-cheatsheet-for-learning-and-interview-success)
+   
