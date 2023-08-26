@@ -267,3 +267,34 @@ While both hypervisors and Docker provide virtualization and isolation, they ope
     3. **Union Filesystems (UnionFS):** Docker employs UnionFS or other similar filesystem technologies (like OverlayFS) to layer filesystems and provide efficient image layering, which helps in creating lightweight and shareable container images.
     
     These Linux kernel features are essential for the core functionality of Docker, providing the isolation and resource management that make containers possible. As a result, Docker is primarily compatible with Linux-based systems. However, Docker also provides solutions like Docker Desktop for Mac and Windows that run a lightweight Linux VM to enable Docker usage on non-Linux platforms, effectively providing a Linux environment for Docker to operate within.
+
+   ## 14. What’s the difference between COPY & ADD command? Explain it’s importance
+    
+    Both the **`COPY`** and **`ADD`** commands in Docker are used to copy files and directories from the host into the image's filesystem. However, there are some differences between them. Let's explore these differences using code snippets:
+    
+    **COPY Command:**
+    
+    The **`COPY`** command is used to copy files or directories from the host into the image's filesystem. It is a straightforward way to include local files in the image.
+    
+    ```docker
+    # Dockerfile
+    FROM ubuntu:latest
+    COPY app.py /app/
+    ```
+    
+    **ADD Command:**
+    
+    The **`ADD`** command also copies files and directories from the host into the image's filesystem, but it has some additional capabilities. It can handle URLs and automatically extract compressed files.
+    
+    ```docker
+    # Dockerfile
+    FROM ubuntu:latest
+    ADD https://example.com/my-app.tar.gz /app/
+    ```
+    
+    n this example, the **`my-app.tar.gz`** archive is downloaded from a URL and extracted into the **`/app/`** directory within the image.
+    
+    **Best Practice:**
+    
+    - It's recommended to use **`COPY`** for most cases where you want to copy local files into the image.
+    - Use **`ADD`** when you specifically need its additional features like URL downloading or automatic extraction.
