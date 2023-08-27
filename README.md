@@ -23,12 +23,11 @@ The Docker daemon (`dockerd`) listens for Docker API requests and manages Docker
 
 The Docker client (`docker`) is the primary way that many Docker users interact with Docker. When you use commands such as `docker run`, the client sends these commands to `dockerd`, which carries them out. The `docker` command uses the Docker API. The Docker client can communicate with more than one daemon.
 
-![dockerArchitecture1](https://github.com/kunal-gohrani/docker-interview-questions/assets/47574597/d8e62301-574e-4215-877d-0e6848c6edf6)
-
+![dockerArchitecture1](https://github.com/kunal-gohrani/docker-interview-questions/assets/47574597/7473f54a-a9a1-4568-9a3c-f6f12c595ce2)
 
 Credits: [devopscube.com](https://devopscube.com/what-is-docker/)
 
-![dockerArchitecture2](https://github.com/kunal-gohrani/docker-interview-questions/assets/47574597/7619aa20-ce46-4ff1-8cb6-84b0126d6aef)
+![dockerArchitecture2](https://github.com/kunal-gohrani/docker-interview-questions/assets/47574597/83edba5b-1f04-4da7-8806-374185dcb8cf)
 
 Credits: [devopscube.com](https://devopscube.com/what-is-docker/)
 
@@ -55,7 +54,7 @@ Credits: [GeeksForGeeks](https://www.geeksforgeeks.org/difference-between-docker
 
 ## 2. What is runC shown in this diagram?
 
-![dockerArchitecture2](https://github.com/kunal-gohrani/docker-interview-questions/assets/47574597/787530e9-e81e-468f-9de7-98091626500f)
+![dockerArchitecture2](https://github.com/kunal-gohrani/docker-interview-questions/assets/47574597/17fc92ce-2257-437c-9090-9f1f18003ac7)
 
 
 runC is a lightweight, portable container runtime. It includes all of the plumbing code used by Docker to interact with system features related to containers. It is designed with the following principles in mind:
